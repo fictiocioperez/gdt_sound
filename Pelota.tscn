@@ -1,0 +1,34 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://asset/PNG/58-Breakout-Tiles.png" type="Texture" id=1]
+[ext_resource path="res://Pelota.tres.gd" type="Script" id=2]
+
+[sub_resource type="SegmentShape2D" id=1]
+a = Vector2( 0, 95 )
+b = Vector2( 0.0545692, -95.8548 )
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 71.5672, 3.4747 )
+
+[node name="Pelota" type="Area2D"]
+script = ExtResource( 2 )
+
+[node name="Sprite" type="Sprite" parent="."]
+scale = Vector2( 0.15, 0.15 )
+texture = ExtResource( 1 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+scale = Vector2( 0.1, 0.1 )
+shape = SubResource( 1 )
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="."]
+position = Vector2( -0.0441942, 0 )
+scale = Vector2( 0.1, 0.1 )
+shape = SubResource( 2 )
+
+[connection signal="area_entered" from="." to="." method="_on_Pelota_area_entered"]
+[connection signal="area_exited" from="." to="." method="_on_Pelota_area_exited"]
+[connection signal="body_entered" from="." to="." method="_on_Pelota_body_entered"]

@@ -1,0 +1,79 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://asset/PNG/sprite9_0.png" type="Texture" id=1]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends KinematicBody2D
+
+export (int) var speed = 0.0005
+var orientacion=Vector2()
+var target = Vector2()
+var velocity = Vector2()
+var direction= Vector2()
+var index=0
+func _input(event):
+	if event.is_action_pressed(\"click\"):
+		target = get_global_mouse_position()
+func _inicio():
+	if(rotation_degrees==0 or rotation_degrees==180):
+		orientacion.x=0
+	if(rotation_degrees==90 or rotation_degrees==270):
+		orientacion.y=0
+	if(rotation_degrees>0 and rotation_degrees<180): #or (rotation_degrees>270 and rotation_degrees<360)
+		orientacion.x=1
+	if(rotation_degrees>180 and rotation_degrees<360) :
+		orientacion.x=-1
+	if (rotation_degrees>=0 and rotation_degrees<90)or(rotation_degrees>270 and rotation_degrees<360):
+		orientacion.y=-1
+	if(rotation_degrees>90 and rotation_degrees<270):
+		orientacion.y=1
+	pass
+func _prueba():
+	var jj=90+index
+	position.x=300+sin(jj)
+	position.y=300+cos(jj)
+	pass
+func _physics_process(delta):
+	_inicio()
+	$TextLabel.text=String(index)+\"\\n\"+String(rotation_degrees)+\"\\n\"+String(target.normalized())
+	#direction=position.normalized()
+	#position+=direction.length()*velocity
+	var dire=position.length()
+	#position += position.normalized() * speed *delta*orientacion.length()
+	position += orientacion.normalized() * delta
+	#position += orientacion.normalized() * speed *orientacion.length()*0.005
+	#velocity = position.direction_to(target) * speed *orientacion.length()
+	#velocity = move_and_slide(velocity)
+	#look_at(target)
+	
+	#position+=position.normalized()*target.length()*delta*0.1
+	#if position.distance_to(target) > 5:
+	#	velocity = move_and_slide(velocity)
+"
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 3.12373, 15.9932 )
+
+[node name="bullet" type="KinematicBody2D"]
+script = SubResource( 1 )
+
+[node name="Sprite" type="Sprite" parent="."]
+scale = Vector2( 0.128045, 0.120721 )
+texture = ExtResource( 1 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="TextLabel" type="RichTextLabel" parent="."]
+margin_left = 9.0
+margin_right = 124.0
+margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
